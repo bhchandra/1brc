@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 public class CalculateAverage_bhchandra {
 
@@ -83,7 +84,7 @@ public class CalculateAverage_bhchandra {
                     return new ResultRow(agg.min, (Math.round(agg.sum * 10.0) / 10.0) / agg.count, agg.max);
                 });
 
-        Map<String, ResultRow> measurements = new TreeMap<>(Files.lines(Paths.get(FILE))
+        Map<String, ResultRow> measurements = new TreeMap<>(Files.lines(Paths.get(FILE)).parallel()
                 .map(l -> new Measurement(l.split(";")))
                 .collect(groupingBy(m -> m.station(), collector)));
 
